@@ -30,16 +30,34 @@ void setup()
   Serial.begin(9600);
 }
 
+void correctCode() 
+{
+    //JOS KOODI OIKEIN; SUORITETAAN TÄMÄ
+    //PITÄÄ LEDIN PÄÄLLÄ 5 SEKUNTIA
+    digitalWrite(13, HIGH);
+    delay(5000);
+    digitalWrite(13, LOW);
+}
+
 void incorrectCode()
 {
   //JOS KOODI ON VÄÄRÄ, SUORITETAAN TÄMÄ KOODI
+  //VILKUTTAA LEDIÄ 5 KERTAA PUOLEN SEKUNNIN AJAN PUOLEN SEKUNNIN VÄLEIN
+    for (int e = 0; e<5; e++)
+    {
+    
+	digitalWrite(13, HIGH);
+	delay(500);
+  	digitalWrite(13, LOW);
+  	delay(500);
+    }
 }
 
 void loop() //PÄÄKOODI
 {
   //jos lukko on auki, odota sen sulkemista ennen jatkamista...
 
-  for (int i = 0; i < sizeof(pincode); i++)
+  for (int i = 0; i < 4; i++)
   {
     
     char key = myKeypad.waitForKey(); //SYÖTÄ...
@@ -51,11 +69,11 @@ void loop() //PÄÄKOODI
     }
   }
 
-  if (correct == sizeof(pincode))
+  if (correct == 4)
   { //JOS KOODI ON OIKEIN...
     //TÄHÄN KOODI JOKA SUORITETAAN, KUN KOODI ON OIKEA...
-
+      correctCode();
   } else {
-    incorrectCode();
+      incorrectCode();
   }
 }
