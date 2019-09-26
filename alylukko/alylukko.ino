@@ -4,6 +4,10 @@
 const byte numRows = 4;
 const byte numCols = 4;
 
+int servoPin = 10;
+
+int ledPin = 13;
+
 char keymap[numRows][numCols] =
 {
   {'1', '2', '3','A'},
@@ -27,22 +31,31 @@ void setup()
 {
   // put your setup code here, to run once:
   //KOODI JOLLA ALUSTETAAN ARDUINO (KOMPONENTIT YMS)
-  Serial.begin(9600);
+    pinMode(servoPin, OUTPUT);
+    pinMode(ledPin, OUTPUT);
+    Serial.begin(9600);
 }
 
-void correctCode() 
+void correctCode() 	//JOS KOODI OIKEIN NIIN SUORITETAAN TÄMÄ KOODI JOSSA LED PÄÄLLÄ 5 SEKUNTIA
+			//JA SERVO PYÖRII 90 ASTETTA ELI "LUKKO" AVAUTUU
 {
-    //JOS KOODI OIKEIN; SUORITETAAN TÄMÄ
-    //PITÄÄ LEDIN PÄÄLLÄ 5 SEKUNTIA
-    digitalWrite(13, HIGH);
+    digitalWrite(ledPin, HIGH);
     delay(5000);
-    digitalWrite(13, LOW);
+    digitalWrite(ledPin, LOW);
+    
+  	for (int i = 0; i<30; i++)
+    {
+    
+    digitalWrite(servoPin, HIGH);
+    delay(500);
+    digitalWrite(servoPin, LOW);
+    delay(20);
+    }
 }
 
 void incorrectCode()
 {
-  //JOS KOODI ON VÄÄRÄ, SUORITETAAN TÄMÄ KOODI
-  //VILKUTTAA LEDIÄ 5 KERTAA PUOLEN SEKUNNIN AJAN PUOLEN SEKUNNIN VÄLEIN
+  //JOS KOODI ON VÄÄRÄ, SUORITETAAN TÄMÄ KOODI JOSSA LED VÄLKKYY PUOLEN SEKUNNIN INTERVALLILLA 5 KERTAA
     for (int e = 0; e<5; e++)
     {
     
