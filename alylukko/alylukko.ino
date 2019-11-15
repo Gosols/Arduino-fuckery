@@ -29,15 +29,15 @@ Keypad myKeypad = Keypad(makeKeymap(keymap), rowPins, colPins, numRows, numCols)
 
 int pincode[] = {1, 2, 3, 4, 5, 6};  //OIKEA NÄPPÄIMISTÖN KOODI
 int montaPitaaArvataOikein = 4; //KOODIN PITUUS (LÄHTÖKOHTAISESTI 4, MAKSIMISSAAN 6)
-bool pincodeIsCorrect = false; //ONKO KOODI OIKEIN...
+//bool pincodeIsCorrect = false; //ONKO KOODI OIKEIN...
 int correct = 0; //OIKEIN ARVATUT YKSITTÄISET NROT
-bool checkIfLockIsOpen = false; //TARKISTAA ONKO LUKKO AUKI
+//bool checkIfLockIsOpen = false; //TARKISTAA ONKO LUKKO AUKI
 char key; //???
 
 void setup()
 {
   // put your setup code here, to run once:
-  
+
   //KOODI JOLLA ALUSTETAAN ARDUINO (KOMPONENTIT YMS)
   Serial.begin(9600);
   //pinMode(buzzer, OUTPUT); // Set buzzer - pin 9 as an output
@@ -63,11 +63,8 @@ void correctCode()
     myServo.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myServo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  
+
+
 }
 
 void incorrectCode()
@@ -88,7 +85,7 @@ void incorrectCode()
 
   if (montaPitaaArvataOikein < 6) { //JOS SALASANAA VOI VIELÄ VAIKEUTTAA, VAIKEUTA SAATANA
     Serial.println("Koodi vaikeutuu HÄHÄHÄHÄ");
-    
+
     montaPitaaArvataOikein++;
 
   }
@@ -135,4 +132,17 @@ void loop() //PÄÄKOODI
     incorrectCode();
     resetCorrect();
   }
+}
+
+//resetointi
+void resetCode() {
+  montaPitaaArvataOikein = 4;
+  correct = 0;
+
+  //lukko sulkeutuu
+  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+    myServo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+
 }
