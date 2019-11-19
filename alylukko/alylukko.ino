@@ -1,20 +1,14 @@
-#include <Servo.h>
 #include <Key.h>
 #include <Keypad.h>
 
-Servo myServo;
 
-const byte numRows = 4;
-const byte numCols = 3;
-
-int servoPin = 10; //PINNIPAIKKA SERVON OHJAUSTA VARTEN
-int pos = 0; //MUUTTUJA SERVON SIJAINNILLE
-
+const byte numRows = 4; //NÄPPÄIMISTÖN RIVIEN MÄÄRÄ
+const byte numCols = 3; //NÄPPÄIMISTÖN KOLUMNIEN MÄÄRÄ
 
 int ledPinRed = 13; //PUNAISEN VALON PINNIPAIKKA
 int ledPinGreen = 9;//VIHREÄN VALON PINNIPAIKKA
 
-char keymap[numRows][numCols] =
+char keymap[numRows][numCols] = //LUODAAN NÄPPÄIMISTÖN "LAYOUTTI"
 {
   {'1', '2', '3'},
   {'4', '5', '6'},
@@ -29,21 +23,12 @@ Keypad myKeypad = Keypad(makeKeymap(keymap), rowPins, colPins, numRows, numCols)
 
 int pincode[] = {1, 2, 3, 4, 5, 6};  //OIKEA NÄPPÄIMISTÖN KOODI
 int montaPitaaArvataOikein = 4; //KOODIN PITUUS (LÄHTÖKOHTAISESTI 4, MAKSIMISSAAN 6)
-//bool pincodeIsCorrect = false; //ONKO KOODI OIKEIN...
 int correct = 0; //OIKEIN ARVATUT YKSITTÄISET NROT
-//bool checkIfLockIsOpen = false; //TARKISTAA ONKO LUKKO AUKI
-char key; //???
 
 void setup()
 {
-  // put your setup code here, to run once:
-
   //KOODI JOLLA ALUSTETAAN ARDUINO (KOMPONENTIT YMS)
   Serial.begin(9600);
-  //pinMode(buzzer, OUTPUT); // Set buzzer - pin 9 as an output
-
-  //SERVO
-  myServo.attach(servoPin);
 }
 
 void correctCode()
@@ -56,15 +41,6 @@ void correctCode()
   digitalWrite(ledPinGreen, HIGH);
   delay(3000);
   digitalWrite(ledPinGreen, LOW);
-
-  //LUKKO (SERVO) AUKEAA
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myServo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-
-
 }
 
 void incorrectCode()
@@ -87,7 +63,6 @@ void incorrectCode()
     Serial.println("Koodi vaikeutuu HÄHÄHÄHÄ");
 
     montaPitaaArvataOikein++;
-
   }
 }
 
@@ -138,11 +113,4 @@ void loop() //PÄÄKOODI
 void resetCode() {
   montaPitaaArvataOikein = 4;
   correct = 0;
-
-  //lukko sulkeutuu
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myServo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-
 }
