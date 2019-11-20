@@ -1,9 +1,8 @@
 #include <Key.h>
 #include <Keypad.h>
 
-
-const byte numRows = 4; //NÄPPÄIMISTÖN RIVIEN MÄÄRÄ
-const byte numCols = 3; //NÄPPÄIMISTÖN KOLUMNIEN MÄÄRÄ
+const byte numRows = 4; //NÄPPÄIMISTÖN VAAKARIVIEN MÄÄRÄ
+const byte numCols = 3; //NÄPPÄIMISTÖN PYSTYRIVIEN MÄÄRÄ
 
 int ledPinRed = 13; //PUNAISEN VALON PINNIPAIKKA
 int ledPinGreen = 9;//VIHREÄN VALON PINNIPAIKKA
@@ -83,26 +82,26 @@ void loop() //PÄÄKOODI
   Serial.print(montaPitaaArvataOikein);
   Serial.println("-numeroinen - vääristä arvauksista koodi vaikeutuu!");
 
+  Serial.println();
   Serial.print("Anna koodi: ");
   for (int i = 0; i < montaPitaaArvataOikein; i++)
   {
-    char key = myKeypad.waitForKey(); //SYÖTÄ...
-    int keyInt = key - '0';       //MUUTETAAN NUMEROKSI...
+    char key = myKeypad.waitForKey(); //TALLETETAAN NÄPPÄIMEN PAINALLUS MUUTTUJAAN "key"...
+    int keyInt = key - '0';       //MUUTETAAN NUMEROKSI MUUTTUJAAN "keyInt"...
     Serial.print(keyInt);
-    if (pincode[i] == keyInt)     //JOS SYÖTETTY YKSITTÄINEN KOODINUMERO ON OIKEIN...
+    
+    if (pincode[i] == keyInt)     //JOS SYÖTETTY _YKSITTÄINEN KOODINUMERO_ ON OIKEIN...
     {
       addCorrect();
     }
   }
 
-  if (correct == montaPitaaArvataOikein)
-  { //JOS KOODI ON OIKEIN...
-    //TÄHÄN KOODI JOKA SUORITETAAN, KUN KOODI ON OIKEA...
-
+  if (correct == montaPitaaArvataOikein) //JOS _KOODI_ ON OIKEIN...
+  {
     correctCode();
     resetCorrect();
 
-  } else
+  } else //JOS _KOODI_ ON VÄÄRÄ...
   {
     incorrectCode();
     resetCorrect();
